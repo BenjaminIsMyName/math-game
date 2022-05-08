@@ -1,7 +1,7 @@
 import Head from "next/head";
 import { useState, useEffect, useRef } from "react";
 import Answers from "../components/Answers";
-import GameOver from "../components/Gameover";
+import GameOver from "../components/GameOver";
 import Question from "../components/Question";
 import styles from "../styles/Home.module.css";
 

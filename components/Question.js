@@ -97,7 +97,7 @@ export default function Question({ setAnswer, score, setQuestion }) {
   useEffect(() => {
     // when the component is mounted (first time ever), create a new question
     createQuestion();
-  }, []);
+  }, []); // missing dependencies warning: createQuestion
 
   useEffect(() => {
     // when a new question is created, let the parent component know what is the question and what is the answer
@@ -105,11 +105,11 @@ export default function Question({ setAnswer, score, setQuestion }) {
       setAnswer(getFullAnswer());
       setQuestion(getStr());
     }
-  }, [nums, actions]);
+  }, [nums, actions]); // missing dependencies warning: getFullAnswer, getStr, setAnswer, setQuestion
 
   useEffect(() => {
     // when the score changes (next step), create a new question
-    createQuestion();
+    createQuestion(); // missing dependencies warning: createQuestion
   }, [score]);
 
   function getStr() {
