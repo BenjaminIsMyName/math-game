@@ -81,11 +81,9 @@ export default function Question({ setAnswer, score }) {
         signs.push(1);
         random.push(3);
         break;
-      case 9:
-        createQuestion(); // if 3*3, just pick a different random question
-      default:
+      default: // if 3*3, just pick a different random question
         createQuestion();
-        break;
+        return;
     }
     if (getStr(random, signs) === getStr()) {
       // if the last asked question is the same as the one we just generated, we will generate a different one.
