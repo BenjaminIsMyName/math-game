@@ -16,6 +16,7 @@
   position: relative;
   border: none;
   box-shadow: 2px 2px 5px rgba(var(--shadow-color), 0.5);
+  cursor: pointer;
 }
 
 /* .animate > button::before { */

@@ -28,4 +28,5 @@
     "Lucida Sans Unicode", Geneva, Verdana, sans-serif;
   box-shadow: 0px 5px 5px rgba(var(--shadow-color), 0.5);
   border: none;
+  cursor: pointer;
 }

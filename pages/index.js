@@ -86,7 +86,7 @@ export default function Home() {
         setQuestion={val => (question.current = val)}
       />
       <Answers
-        callback={wrongAnswerRef.current ? n => null : handleClick}
+        callback={wrongAnswerRef.current || !playing ? n => null : handleClick}
         score={wrongAnswerRef.current ? -1 : score}
         resObj={{
           correct: wrongAnswerRef.current ? answer.current : null,
