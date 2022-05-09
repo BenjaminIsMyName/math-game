@@ -27,48 +27,56 @@ export default function Question({ setAnswer, score }) {
     let signs = [];
     if (score >= 10) {
       random.push(createRand(1, 3));
-      signs.push(getActionSign(createRand(0, 1)));
+      signs.push(createRand(0, 1));
     }
 
     let res = random.length == 1 ? random[0] : getFullAnswer(random, signs);
     switch (res) {
       case -2:
-        setActions([...signs, getActionSign(0)]);
-        setNums([...random, 3]);
+        signs.push(0);
+        random.push(3);
         break;
       case -1:
-        setActions([...signs, getActionSign(0)]);
-        setNums([...random, createRand(2, 3)]);
+        signs.push(0);
+        random.push(createRand(2, 3));
         break;
       case 0:
-        setActions([...signs, getActionSign(0)]);
-        setNums([...random, createRand(1, 3)]);
+        signs.push(0);
+        random.push(createRand(1, 3));
         break;
       case 1:
-        setActions([...signs, getActionSign(0)]);
-        setNums([...random, createRand(1, 2)]);
+        signs.push(0);
+        random.push(createRand(1, 2));
         break;
       case 2:
-        setActions([...signs, getActionSign(createRand(0, 1))]);
-        setNums([...random, 1]);
+        signs.push(createRand(0, 1));
+        random.push(1);
         break;
       case 3:
-        setActions([...signs, getActionSign(1)]);
-        setNums([...random, createRand(1, 2)]);
+        signs.push(1);
+        random.push(createRand(1, 2));
         break;
       case 4:
-        setActions([...signs, getActionSign(1)]);
-        setNums([...random, createRand(1, 3)]);
+        signs.push(1);
+        random.push(createRand(1, 3));
         break;
       case 5:
-        setActions([...signs, getActionSign(1)]);
-        setNums([...random, createRand(2, 3)]);
+        signs.push(1);
+        random.push(createRand(2, 3));
         break;
       case 6:
-        setActions([...signs, getActionSign(1)]);
-        setNums([...random, 3]);
+        signs.push(1);
+        random.push(3);
+        break;
       default:
         break;
+    }
+    if (getStr(random, signs) === getStr()) {
+      // if the last asked question is the same as the one we just generated, we will generate a different one.
+      createQuestion();
+    } else {
+      setActions(signs);
+      setNums(random);
     }
   }
 
@@ -80,9 +88,9 @@ export default function Question({ setAnswer, score }) {
   function calcPart(n, action, y) {
     // calculate the answer
     switch (action) {
-      case "+":
+      case 0:
         return n + y;
-      case "-":
+      case 1:
         return n - y;
       default:
         return -1;
@@ -118,7 +126,7 @@ export default function Question({ setAnswer, score }) {
   }, []); // missing dependencies warning: createQuestion
 
   useEffect(() => {
-    // when a new question is created, let the parent component know what what is the correct answer
+    // when a new question is created, let the parent component know what is the correct answer
     if (nums.length > 0 && actions.length > 0) {
       setAnswer(getFullAnswer());
     }
@@ -129,14 +137,16 @@ export default function Question({ setAnswer, score }) {
     createQuestion(); // missing dependencies warning: createQuestion
   }, [score]);
 
-  function getStr() {
+  function getStr(n, act) {
+    n = n || nums;
+    act = act || actions;
     let question = "";
-    if (nums.length > 0 && actions.length > 0) {
+    if (n.length > 0 && act.length > 0) {
       let i = 0;
-      for (; i < actions.length; i++) {
-        question += nums[i] + " " + actions[i] + " ";
+      for (; i < act.length; i++) {
+        question += n[i] + " " + getActionSign(act[i]) + " ";
       }
-      question = question + nums[i];
+      question = question + n[i];
     }
     return question;
   }
