@@ -28,7 +28,8 @@ export default function Home() {
   function handleClick(num) {
     // this function will be called when the user clicks on an answer
     if (answer.current === num) {
-      setScore(prev => (prev < 10 ? prev + 1 : prev + 2));
+      // setScore(prev => (prev < 10 ? prev + 1 : prev + 2)); // get 2 points if the question is hard...
+      setScore(prev => prev + 1); // if the answer is correct, increase the score only by 1
       audios.current.bitGood && audios.current.bitGood.play();
     } else {
       wrongAnswerRef.current = num;

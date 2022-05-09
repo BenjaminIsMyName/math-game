@@ -2,6 +2,7 @@ import { useRef, useLayoutEffect, useState, useEffect } from "react";
 import styles from "../styles/Question.module.css";
 import { AnimatePresence, motion } from "framer-motion";
 export default function Question({ setAnswer, score }) {
+  // TODO: check if Order of operations can be a problem for us
   const [nums, setNums] = useState([]);
   const [actions, setActions] = useState([]); // TODO: save in 'actions' only the action's number (0 or 1) and the action's sign (+ or -)
 
@@ -23,14 +24,17 @@ export default function Question({ setAnswer, score }) {
     //    so we'll calculate the sum of it and enter the try-catch block.
     //    in there, in "case 5", we will manually set the sign to minus (we have to make the 5 be lower), and we will pick a random number between 2-3 (because 5-1 is not small enough).
 
+    let isDoubleAllowed = score >= 10;
     let random = [createRand(1, 3)];
     let signs = [];
-    if (score >= 10) {
+    if (score >= 5) {
       random.push(createRand(1, 3));
-      signs.push(createRand(0, 1));
+      signs.push(createRand(0, isDoubleAllowed ? 2 : 1));
     }
 
+    let sign;
     let res = random.length == 1 ? random[0] : getFullAnswer(random, signs);
+
     switch (res) {
       case -2:
         signs.push(0);
@@ -45,16 +49,25 @@ export default function Question({ setAnswer, score }) {
         random.push(createRand(1, 3));
         break;
       case 1:
-        signs.push(0);
-        random.push(createRand(1, 2));
+        // let's randomly pick + or * (not -)
+        sign = isDoubleAllowed && createRand(0, 1) == 1 ? 2 : 0;
+        signs.push(sign);
+        // based on the sign, we will pick a random number between
+        if (sign == 0) {
+          random.push(createRand(1, 2));
+        } else {
+          random.push(1);
+        }
         break;
       case 2:
-        signs.push(createRand(0, 1));
+        sign = createRand(0, isDoubleAllowed ? 2 : 1);
+        signs.push(sign);
         random.push(1);
         break;
       case 3:
-        signs.push(1);
-        random.push(createRand(1, 2));
+        sign = isDoubleAllowed && createRand(0, 1) === 1 ? 2 : 1; // we use createRand to rolld a dice (1=true, 0=false)
+        signs.push(sign);
+        random.push(sign === 1 ? createRand(1, 2) : 1); // minus? 1-2. double? 1
         break;
       case 4:
         signs.push(1);
@@ -68,7 +81,10 @@ export default function Question({ setAnswer, score }) {
         signs.push(1);
         random.push(3);
         break;
+      case 9:
+        createQuestion(); // if 3*3, just pick a different random question
       default:
+        createQuestion();
         break;
     }
     if (getStr(random, signs) === getStr()) {
@@ -92,12 +108,42 @@ export default function Question({ setAnswer, score }) {
         return n + y;
       case 1:
         return n - y;
+      case 2:
+        return n * y;
       default:
         return -1;
     }
   }
 
   function getFullAnswer(n, act) {
+    // PROBLEM:
+    // if * is the second (2-1*3), there is a problem.
+    // we will calculate the first part, and then we will calculate the second part. but * is more important!
+    // only when the sum of the first two digit is between 1 and 3, we could have a problem. (only then we add multiplication)
+    // but if the sum is 2, we will not have a problem. because then it can only be muilplication of 1. so: 3-1*1 or 1+1*1 is always 2.
+    // if the sum is 3, we will not have a problem. because then it can only be multiplication of 1. so: 1+2*1 or 2+1*1 is always 3.
+    // so only if the sum is 1, we could have different multiplication (1-3), so only then we could have a problem.
+    // list of possible problematic cases:
+    // 2-1*3 (our calculation is (2-1)*3=3, but the real calculation is 2-(1*3)=-1
+    // 3-2*3 (our calculation is (3-2)*3=3, but the real calculation is 3-(2*3)=-3
+    // 2-1*2 (our calculation is (2-1)*2=2, but the real calculation is 2-(1*2)=0
+    // 3-2*2 (our calculation is (3-2)*2=2, but the real calculation is 3-(2*2)=-1
+    // 2-1*1 (our calculation is (2-1)*1=1, but the real calculation is 2-(1*1)=1 (no problem)
+    // 3-2*1 (our calculation is (3-2)*1=1, but the real calculation is 3-(2*1)=1 (no problem)
+
+    // SOLUTION:
+    // we will allow only *1 when the sum is 1.
+    // so the multiplication will be 1 in the second part.
+
+    // ANOHTER PROBLEM:
+    // if we have 1+1*3, we will calculate 1+1, go to the "case 2" and won't allow to pick *3.
+    // to solve this, we will... ummm...
+
+    // ANOHTER PROBLEM:
+    // what happens if we get 3*3? we don't have a way to take down the answer to 3.
+    // SOLUTION:
+    // we won't allow 3*3.
+
     n = n || nums;
     act = act || actions;
     let res = n[0];
