@@ -4,7 +4,7 @@ export default function Answers({ callback, score, resObj }) {
   return (
     <div
       key={score} // when score changes, the element will unmount and mount again (react will think it's a new element)
-      className={`${styles.answers} ${score >= 1 ? styles.animate : ""}`}
+      className={`${styles.answers} ${score >= 1 ? styles.animate : ""}`} // when score is less than one, the answers are not animated (simple background)
     >
       <button
         onClick={() => callback(1)}

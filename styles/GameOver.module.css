@@ -2,17 +2,12 @@
   padding: 20px;
   display: flex;
   flex-direction: column;
-  /* justify-content: center; */
   gap: 20px;
   width: clamp(60%, 500px, 90%);
   margin: auto;
   color: rgb(var(--text));
   align-items: center;
   text-align: center;
-  /* padding: 2px;
-  margin-top: 50%;
-  overflow: hidden;
-  transform: translateY(-50%); */
   padding-top: 100px;
 }
 
@@ -22,7 +17,6 @@
   padding: 15px;
   border-radius: 10px;
   font-size: 1.2rem;
-  /* uppercase */
   text-transform: uppercase;
   font-family: "Lucida Sans", "Lucida Sans Regular", "Lucida Grande",
     "Lucida Sans Unicode", Geneva, Verdana, sans-serif;

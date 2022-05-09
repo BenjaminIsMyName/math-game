@@ -12,47 +12,46 @@ export default function Home() {
     good: null,
     bad: null,
   });
-  const answer = useRef(0);
-  const question = useRef("");
+  const answer = useRef(0); // the correct answer (int)
   const [score, setScore] = useState(0);
-  const [playing, setPlaying] = useState(true);
-  const timeRef = useRef(null);
-  const reasonRef = useRef(null);
-  const wrongAnswerRef = useRef(null);
+  const [playing, setPlaying] = useState(true); // true = playing, false = game over
+  const timeRef = useRef(null); // to store the time interval
+  const wrongAnswerRef = useRef(null); // to store the wrong answer (int)
 
   useEffect(() => {
-    // only call client-side, not server-side
+    // we need this useEffect because we cannot use Audio object on the server.
+    // so useEffect will make sure it will run only on the client-side
     audios.current.bitGood = new Audio("/bit-good-sound.mp3");
     audios.current.bad = new Audio("/bad.mp3");
   }, []);
 
   function handleClick(num) {
+    // this function will be called when the user clicks on an answer
     if (answer.current === num) {
       setScore(prev => (prev < 10 ? prev + 1 : prev + 2));
       audios.current.bitGood && audios.current.bitGood.play();
     } else {
       wrongAnswerRef.current = num;
-      reasonRef.current = `No, ${question.current} = ${answer.current} and not ${num}`;
       audios.current.bad && audios.current.bad.play();
       setPlaying(false);
     }
   }
 
   useEffect(() => {
-    // set Playing to false if time is up (10 seconds are over since the answer is displayed)
+    // this useEffect handles the time interval
 
     if (timeRef.current) {
       clearTimeout(timeRef.current);
     }
 
     if (score >= 1 && playing) {
+      // if the user started the game (score: 1+) and the game is still playing, we need to set a new time interval
       timeRef.current = setTimeout(() => {
-        reasonRef.current = `You ran out of time! The last question was ${question.current} = ${answer.current}`;
         audios.current.bad && audios.current.bad.play();
         setPlaying(false);
       }, 5200);
     }
-  }, [score, playing]);
+  }, [score, playing]); // this will run only when score or playing changes (remove timer, and set new one if still playing)
 
   return (
     <>
@@ -80,14 +79,10 @@ export default function Home() {
         </div>
       </AnimatePresence>
 
-      <Question
-        setAnswer={e => (answer.current = e)}
-        score={score}
-        setQuestion={val => (question.current = val)}
-      />
+      <Question setAnswer={e => (answer.current = e)} score={score} />
       <Answers
-        callback={wrongAnswerRef.current || !playing ? n => null : handleClick}
-        score={wrongAnswerRef.current ? -1 : score}
+        callback={playing ? handleClick : () => null} // if playing is false, we don't want to do anything when the user clicks on an answer
+        score={wrongAnswerRef.current ? -1 : score} // only if the user chose the wrong answer, re-mount the answers with score of -1 (which means: no animation, simple background). but if the user lost because of time, we don't want to re-mount the answers (stay red). score (the key) will not update.
         resObj={{
           correct: wrongAnswerRef.current ? answer.current : null,
           wrong: wrongAnswerRef.current ? wrongAnswerRef.current : null,
@@ -95,8 +90,6 @@ export default function Home() {
       />
       {playing || (
         <GameOver
-          score={score}
-          reason={reasonRef.current}
           playAgain={() => {
             setPlaying(true);
             setScore(0);
