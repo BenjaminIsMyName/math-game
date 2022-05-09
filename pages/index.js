@@ -1,3 +1,4 @@
+import { AnimatePresence, motion } from "framer-motion";
 import Head from "next/head";
 import { useState, useEffect, useRef } from "react";
 import Answers from "../components/Answers";
@@ -64,7 +65,21 @@ export default function Home() {
           content='width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no'
         />
       </Head>
-      <div className={styles.score}>SCORE: {score}</div>
+
+      <AnimatePresence exitBeforeEnter={true}>
+        <div className={styles.score} key='score'>
+          SCORE:{" "}
+          <motion.span
+            initial={{ y: -15, opacity: 0.5 }}
+            animate={{ y: 0, opacity: 1 }}
+            exit={{ y: 15, opacity: 0.5 }}
+            key={score}
+          >
+            {score}
+          </motion.span>
+        </div>
+      </AnimatePresence>
+
       <Question
         setAnswer={e => (answer.current = e)}
         score={score}

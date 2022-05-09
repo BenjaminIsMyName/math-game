@@ -1,5 +1,6 @@
 import { useRef, useLayoutEffect, useState, useEffect } from "react";
 import styles from "../styles/Question.module.css";
+import { AnimatePresence, motion } from "framer-motion";
 export default function Question({ setAnswer, score, setQuestion }) {
   const [nums, setNums] = useState([]);
   const [actions, setActions] = useState([]); // TODO: save in 'actions' only the action's number (0 or 1) and the action's sign (+ or -)
@@ -124,5 +125,19 @@ export default function Question({ setAnswer, score, setQuestion }) {
     return question;
   }
 
-  return <h1 className={styles.question}>{getStr() || "..."}</h1>;
+  return (
+    <div className={styles.container}>
+      <AnimatePresence exitBeforeEnter={true}>
+        <motion.h1
+          key={score}
+          initial={{ x: -50, opacity: 0 }}
+          animate={{ x: 0, opacity: 1 }}
+          exit={{ x: 50, opacity: 0 }}
+          className={styles.question}
+        >
+          {getStr() || "..."}
+        </motion.h1>
+      </AnimatePresence>
+    </div>
+  );
 }
