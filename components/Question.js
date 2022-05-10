@@ -2,11 +2,46 @@ import { useRef, useLayoutEffect, useState, useEffect } from "react";
 import styles from "../styles/Question.module.css";
 import { AnimatePresence, motion } from "framer-motion";
 export default function Question({ setAnswer, score }) {
-  // TODO: check if Order of operations can be a problem for us
   const [nums, setNums] = useState([]);
-  const [actions, setActions] = useState([]); // TODO: save in 'actions' only the action's number (0 or 1) and the action's sign (+ or -)
-
+  const [actions, setActions] = useState([]);
+  const nextQuestion = useRef({
+    nums: [],
+    actions: [],
+  });
   function createQuestion() {
+    let localNums = [];
+    let localActions = [];
+    const firstTime =
+      nextQuestion.current.nums.length === 0 ||
+      nextQuestion.current.actions.length === 0;
+    if (firstTime) {
+      // create the question for the first time
+      ({ localNums, localActions } = getQuestionArrays());
+    } else {
+      // take the question from the ref
+      localNums = nextQuestion.current.nums;
+      localActions = nextQuestion.current.actions;
+    }
+
+    // show the question on the screen
+    setActions(localActions);
+    setNums(localNums);
+    do {
+      // if the next question is the same as the one we just generated, we will generate a different next one.
+      var next = getQuestionArrays();
+    } while (
+      getStr(next.localNums, next.localActions) ===
+      getStr(localNums, localActions)
+    );
+    {
+      nextQuestion.current = {
+        nums: next.localNums,
+        actions: next.localActions,
+      };
+    }
+  }
+
+  function getQuestionArrays() {
     // to prevent questions like 2+2 (we don't have "4" in our answers buttons) we need to do the following:
     // 1. as long as the questions are not longer than 3 numbers (as in: 2+2-3) we can randomly choose the number(s) and sign (+/-).
     // 2. but the last number, and the last sign, will be picked by us in this functiom.
@@ -25,73 +60,69 @@ export default function Question({ setAnswer, score }) {
     //    in there, in "case 5", we will manually set the sign to minus (we have to make the 5 be lower), and we will pick a random number between 2-3 (because 5-1 is not small enough).
 
     let isDoubleAllowed = score >= 10;
-    let random = [createRand(1, 3)];
-    let signs = [];
+    let localNums = [createRand(1, 3)];
+    let localActions = [];
     if (score >= 5) {
-      random.push(createRand(1, 3));
-      signs.push(createRand(0, isDoubleAllowed ? 2 : 1));
+      localNums.push(createRand(1, 3));
+      localActions.push(createRand(0, isDoubleAllowed ? 2 : 1));
     }
 
-    let sign;
-    let res = random.length == 1 ? random[0] : getFullAnswer(random, signs);
+    let action;
+    let res =
+      localNums.length == 1
+        ? localNums[0]
+        : getFullAnswer(localNums, localActions);
 
     switch (res) {
       case -2:
-        signs.push(0);
-        random.push(3);
+        localActions.push(0);
+        localNums.push(3);
         break;
       case -1:
-        signs.push(0);
-        random.push(createRand(2, 3));
+        localActions.push(0);
+        localNums.push(createRand(2, 3));
         break;
       case 0:
-        signs.push(0);
-        random.push(createRand(1, 3));
+        localActions.push(0);
+        localNums.push(createRand(1, 3));
         break;
       case 1:
         // let's randomly pick + or * (not -)
-        sign = isDoubleAllowed && createRand(0, 1) == 1 ? 2 : 0;
-        signs.push(sign);
+        action = isDoubleAllowed && createRand(0, 1) == 1 ? 2 : 0;
+        localActions.push(action);
         // based on the sign, we will pick a random number between
-        if (sign == 0) {
-          random.push(createRand(1, 2));
+        if (action == 0) {
+          localNums.push(createRand(1, 2));
         } else {
-          random.push(1);
+          localNums.push(1);
         }
         break;
       case 2:
-        sign = createRand(0, isDoubleAllowed ? 2 : 1);
-        signs.push(sign);
-        random.push(1);
+        action = createRand(0, isDoubleAllowed ? 2 : 1);
+        localActions.push(action);
+        localNums.push(1);
         break;
       case 3:
-        sign = isDoubleAllowed && createRand(0, 1) === 1 ? 2 : 1; // we use createRand to rolld a dice (1=true, 0=false)
-        signs.push(sign);
-        random.push(sign === 1 ? createRand(1, 2) : 1); // minus? 1-2. double? 1
+        action = isDoubleAllowed && createRand(0, 1) === 1 ? 2 : 1; // we use createRand to rolld a dice (1=true, 0=false)
+        localActions.push(action);
+        localNums.push(action === 1 ? createRand(1, 2) : 1); // minus? 1-2. double? 1
         break;
       case 4:
-        signs.push(1);
-        random.push(createRand(1, 3));
+        localActions.push(1);
+        localNums.push(createRand(1, 3));
         break;
       case 5:
-        signs.push(1);
-        random.push(createRand(2, 3));
+        localActions.push(1);
+        localNums.push(createRand(2, 3));
         break;
       case 6:
-        signs.push(1);
-        random.push(3);
+        localActions.push(1);
+        localNums.push(3);
         break;
       default: // if 3*3, just pick a different random question
-        createQuestion();
-        return;
+        return getQuestionArrays();
     }
-    if (getStr(random, signs) === getStr()) {
-      // if the last asked question is the same as the one we just generated, we will generate a different one.
-      createQuestion();
-    } else {
-      setActions(signs);
-      setNums(random);
-    }
+    return { localNums, localActions };
   }
 
   function createRand(min, max) {
@@ -165,11 +196,6 @@ export default function Question({ setAnswer, score }) {
   }
 
   useEffect(() => {
-    // when the component is mounted (first time ever), create a new question
-    createQuestion();
-  }, []); // missing dependencies warning: createQuestion
-
-  useEffect(() => {
     // when a new question is created, let the parent component know what is the correct answer
     if (nums.length > 0 && actions.length > 0) {
       setAnswer(getFullAnswer());
@@ -177,7 +203,7 @@ export default function Question({ setAnswer, score }) {
   }, [nums, actions]); // missing dependencies warning: getFullAnswer, getStr, setAnswer
 
   useEffect(() => {
-    // when the score changes (next step), create a new question
+    // when the score changes (answered a question or just started the game), create a new question
     createQuestion(); // missing dependencies warning: createQuestion
   }, [score]);
 
