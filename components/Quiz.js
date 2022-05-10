@@ -1,14 +1,12 @@
 import Answers from "./Answers";
 import GameOver from "./GameOver";
-import Question from "./Question";
 import { useState, useEffect, useRef } from "react";
-export default function Quiz({ score, setScore }) {
+export default function Quiz({ score, setScore, answer }) {
   const audios = useRef({
     bitGood: null,
     good: null,
     bad: null,
   });
-  const answer = useRef(0); // the correct answer (int)
 
   const [playing, setPlaying] = useState(true); // true = playing, false = game over
   const timeRef = useRef(null); // to store the time interval
@@ -52,7 +50,6 @@ export default function Quiz({ score, setScore }) {
 
   return (
     <>
-      <Question setAnswer={e => (answer.current = e)} score={score} />
       <Answers
         callback={playing ? handleClick : () => null} // if playing is false, we don't want to do anything when the user clicks on an answer
         score={wrongAnswerRef.current ? -1 : score} // only if the user chose the wrong answer, re-mount the answers with score of -1 (which means: no animation, simple background). but if the user lost because of time, we don't want to re-mount the answers (stay red). score (the key) will not update.
