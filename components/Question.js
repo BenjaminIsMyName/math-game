@@ -14,7 +14,7 @@ export default function Question({ setAnswer, score }) {
     const firstTime =
       nextQuestion.current.nums.length === 0 ||
       nextQuestion.current.actions.length === 0;
-    if (firstTime) {
+    if (firstTime || score === 0) {
       // create the question for the first time
       ({ localNums, localActions } = getQuestionArrays());
     } else {
@@ -166,7 +166,8 @@ export default function Question({ setAnswer, score }) {
 
     // ANOHTER PROBLEM:
     // if we have 1+1*3, we will calculate 1+1, go to the "case 2" and won't allow to pick *3.
-    // to solve this, we will... ummm...
+    // SOLUTION:
+    // ummm...
 
     // ANOHTER PROBLEM:
     // what happens if we get 3*3? we don't have a way to take down the answer to 3.

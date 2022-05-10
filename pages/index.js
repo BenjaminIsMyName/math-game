@@ -3,7 +3,6 @@ import { useState, useRef } from "react";
 import Quiz from "../components/Quiz";
 import Score from "../components/Score";
 import Question from "../components/Question";
-
 // import styles from "../styles/Home.module.css";
 
 export default function Home() {
