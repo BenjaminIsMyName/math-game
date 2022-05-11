@@ -4,10 +4,12 @@ import Quiz from "../components/Quiz";
 import Score from "../components/Score";
 import Question from "../components/Question";
 // import styles from "../styles/Home.module.css";
-
+import useSound from "../hooks/useSound";
+import MuteButton from "../components/MuteButton";
 export default function Home() {
   const [score, setScore] = useState(0);
   const answer = useRef(0); // the correct answer (int)
+  const [audios, isSound, setSound] = useSound();
   return (
     <>
       <Head>
@@ -21,7 +23,16 @@ export default function Home() {
       </Head>
       <Score score={score} />
       <Question setAnswer={e => (answer.current = e)} score={score} />
-      <Quiz score={score} setScore={setScore} answer={answer} />
+      <Quiz score={score} setScore={setScore} answer={answer} audios={audios} />
+      <MuteButton
+        callback={() => {
+          isSound.current = !isSound.current;
+          setSound();
+          isSound.current &&
+            audios.current.click &&
+            audios.current.click.play();
+        }}
+      />
     </>
   );
 }

@@ -1,14 +1,14 @@
 import Answers from "./Answers";
 import GameOver from "./GameOver";
 import { useState, useEffect, useRef } from "react";
-import MuteButton from "./MuteButton";
-import useSound from "../hooks/useSound";
-export default function Quiz({ score, setScore, answer }) {
+export default function Quiz({ score, setScore, answer, audios }) {
+  // this component exists to make sure that
+  // when the "playing" state changes - it will cause
+  // only effected components ("Answers" and "GameOver") to re-render
+
   const [playing, setPlaying] = useState(true); // true = playing, false = game over
   const timeRef = useRef(null); // to store the time interval
   const wrongAnswerRef = useRef(null); // to store the wrong answer (int)
-
-  const [audios, isSound, setSound] = useSound();
 
   function handleClick(num) {
     // this function will be called when the user clicks on an answer
@@ -62,15 +62,6 @@ export default function Quiz({ score, setScore, answer }) {
           }}
         />
       )}
-      <MuteButton
-        callback={() => {
-          isSound.current = !isSound.current;
-          setSound();
-          isSound.current &&
-            audios.current.click &&
-            audios.current.click.play();
-        }}
-      />
     </>
   );
 }
