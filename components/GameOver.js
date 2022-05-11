@@ -1,12 +1,12 @@
 import styles from "../styles/GameOver.module.css";
-// import Button from "@mui/material/Button";
+import Button from "@mui/material/Button";
+import ReplayIcon from "@mui/icons-material/Replay";
 export default function GameOver({ playAgain }) {
   return (
     <div className={styles.container}>
-      <button onClick={playAgain}>Play again</button>
-      {/* <Button onClick={playAgain} variant='contained'>
-        Hello World
-      </Button> */}
+      <Button onClick={playAgain} variant='outlined' startIcon={<ReplayIcon />}>
+        Play Again
+      </Button>
     </div>
   );
 }
