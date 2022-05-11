@@ -15,7 +15,7 @@ body {
   --primary: 20, 20, 20;
   --secondary: 50, 50, 50;
   --text: 255, 255, 255;
-  --red: 255, 0, 0;
-  --green: 0, 255, 0;
+  --red: 200, 50, 50;
+  --green: 40, 150, 40;
   --shadow-color: 0, 0, 0;
 }

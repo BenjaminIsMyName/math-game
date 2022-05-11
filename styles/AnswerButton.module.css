@@ -1,0 +1,23 @@
+.button.correct {
+  background-color: rgb(var(--green));
+}
+
+.button.wrong {
+  background-color: rgb(var(--red));
+}
+
+.button {
+  background-color: rgb(var(--secondary));
+  color: rgb(var(--text));
+  text-align: center;
+  padding: 5px;
+  position: relative;
+  border: none;
+  box-shadow: 2px 2px 5px rgba(var(--shadow-color), 0.5);
+  cursor: pointer;
+}
+
+.button span {
+  position: relative;
+  z-index: 2;
+}

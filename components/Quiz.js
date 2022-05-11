@@ -1,23 +1,14 @@
 import Answers from "./Answers";
 import GameOver from "./GameOver";
 import { useState, useEffect, useRef } from "react";
+import MuteButton from "./MuteButton";
+import useSound from "../hooks/useSound";
 export default function Quiz({ score, setScore, answer }) {
-  const audios = useRef({
-    bitGood: null,
-    good: null,
-    bad: null,
-  });
-
   const [playing, setPlaying] = useState(true); // true = playing, false = game over
   const timeRef = useRef(null); // to store the time interval
   const wrongAnswerRef = useRef(null); // to store the wrong answer (int)
 
-  useEffect(() => {
-    // we need this useEffect because we cannot use Audio object on the server.
-    // so useEffect will make sure it will run only on the client-side
-    audios.current.bitGood = new Audio("/bit-good-sound.mp3");
-    audios.current.bad = new Audio("/bad.mp3");
-  }, []);
+  const [audios, isSound, setSound] = useSound();
 
   function handleClick(num) {
     // this function will be called when the user clicks on an answer
@@ -71,6 +62,15 @@ export default function Quiz({ score, setScore, answer }) {
           }}
         />
       )}
+      <MuteButton
+        callback={() => {
+          isSound.current = !isSound.current;
+          setSound();
+          isSound.current &&
+            audios.current.click &&
+            audios.current.click.play();
+        }}
+      />
     </>
   );
 }
