@@ -16,11 +16,23 @@
   right: 0;
   bottom: 0;
   background-color: rgb(var(--red));
+  -webkit-animation-name: timeOut;
   animation-name: timeOut;
   /* animation-duration: 5s; */ /* this will be written with inline css */
+  -webkit-animation-timing-function: linear;
   animation-timing-function: linear;
+  -webkit-animation-iteration-count: 1;
   animation-iteration-count: 1;
   transform-origin: left;
+}
+
+@-webkit-keyframes timeOut {
+  0% {
+    transform: scaleX(0);
+  }
+  100% {
+    transform: scaleX(1);
+  }
 }
 
 @keyframes timeOut {

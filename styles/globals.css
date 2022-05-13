@@ -9,6 +9,19 @@ body {
     Ubuntu, Cantarell, Fira Sans, Droid Sans, Helvetica Neue, sans-serif;
   min-height: 100vh;
   background-color: rgb(var(--primary));
+  /* the following code is used to prevent the address bar on mobile from being closed, 
+  because of a bug on firefox with the mute button that disappears behind the address bar.
+  it could also be (somewhat) solved by using the following code on the container of the button instead of here. 
+  info: 
+  on mozilla website: https://bugzilla.mozilla.org/show_bug.cgi?id=1673454
+  on github: https://github.com/mozilla-mobile/fenix/issues/16173
+  on stackoverflow: https://stackoverflow.com/questions/64530403/button-in-fixed-position-div-disappears-when-updated-via-javascript-only-occurs
+  */
+  position: fixed;
+  width: 100%;
+  height: 100%;
+  overflow-y: auto;
+  -webkit-overflow-scrolling: touch;
 }
 
 :root {
