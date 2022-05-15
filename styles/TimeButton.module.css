@@ -1,0 +1,17 @@
+.hide {
+  width: 0;
+  margin-left: 0;
+}
+
+.hide * {
+  width: 0;
+}
+
+.show {
+  width: 56px;
+  margin-left: 13px;
+}
+
+.btn {
+  transition: all 0.5s ease-in-out;
+}

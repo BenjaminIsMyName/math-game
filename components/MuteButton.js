@@ -4,12 +4,11 @@ import Tooltip from "@mui/material/Tooltip";
 import Fab from "@mui/material/Fab";
 import { useState } from "react";
 import styles from "../styles/MuteButton.module.css";
-import Fade from "@mui/material/Fade";
 
 export default function MuteButton({ callback }) {
   const [muted, setMuted] = useState(false);
   return (
-    <Fade in={true} timeout={1000}>
+    <div className={styles.container}>
       <Tooltip title={muted ? "Unmute" : "Mute"}>
         <Fab
           onClick={() => {
@@ -23,6 +22,6 @@ export default function MuteButton({ callback }) {
           {muted ? <VolumeOffIcon /> : <VolumeUpIcon />}
         </Fab>
       </Tooltip>
-    </Fade>
+    </div>
   );
 }

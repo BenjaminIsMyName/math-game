@@ -1,6 +1,6 @@
 import styles from "../styles/AnswerButton.module.css";
 
-export default function AnswerButton({ n, callback, resObj }) {
+export default function AnswerButton({ n, callback, resObj, time }) {
   return (
     <button
       onClick={() => callback(n)}
@@ -9,7 +9,7 @@ export default function AnswerButton({ n, callback, resObj }) {
       } ${resObj.wrong === n ? styles.wrong : ""}`}
     >
       <span>{n}</span>
-      <div style={{ animationDuration: `${5}s` }}></div>
+      <div style={{ animationDuration: `${time}s` }}></div>
     </button>
   );
 }

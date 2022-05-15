@@ -23,6 +23,9 @@ const theme = createTheme({
     success: {
       main: "rgb(40, 150, 40)",
     },
+    text: {
+      main: "rgb(255, 255, 255)",
+    },
   },
 });
 

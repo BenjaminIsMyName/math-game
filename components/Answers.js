@@ -3,7 +3,7 @@ import { useCallback } from "react";
 import styles from "../styles/Answers.module.css";
 import AnswerButton from "./AnswerButton";
 
-export default function Answers({ callback, score, resObj }) {
+export default function Answers({ callback, score, resObj, time }) {
   const handleKeyDown = useCallback(
     // memoize the callback
     event => {
@@ -37,9 +37,9 @@ export default function Answers({ callback, score, resObj }) {
       key={score} // when score changes, the element will unmount and mount again (react will think it's a new element)
       className={`${styles.answers} ${score >= 1 ? styles.animate : ""}`} // when score is less than one, the answers are not animated (simple background)
     >
-      <AnswerButton n={1} callback={callback} resObj={resObj} />
-      <AnswerButton n={2} callback={callback} resObj={resObj} />
-      <AnswerButton n={3} callback={callback} resObj={resObj} />
+      <AnswerButton n={1} callback={callback} resObj={resObj} time={time} />
+      <AnswerButton n={2} callback={callback} resObj={resObj} time={time} />
+      <AnswerButton n={3} callback={callback} resObj={resObj} time={time} />
     </div>
   );
 }
