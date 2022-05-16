@@ -5,7 +5,7 @@ import CloseIcon from "@mui/icons-material/Close";
 import TimerIcon from "@mui/icons-material/Timer";
 import styles from "../styles/TimeButton.module.css";
 import { useState } from "react";
-import { Typography } from "@mui/material";
+
 export default function TimeButton({ time, setTime, hide }) {
   const [open, setOpen] = useState(false);
   function handleClick(newTime) {
@@ -31,19 +31,7 @@ export default function TimeButton({ time, setTime, hide }) {
         return (
           <SpeedDialAction
             key={n}
-            component='div'
-            icon={
-              <Typography
-                sx={{
-                  textTransform: "none",
-                  fontWeight: "bolder",
-                  fontSize: "1.1rem",
-                  color: "text.main",
-                }}
-              >
-                {n}s
-              </Typography>
-            }
+            icon={<span className={styles.text}>{n}s</span>}
             tooltipTitle={`${n} seconds`}
             onClick={() => handleClick(n)}
             className={time === n ? styles.selected : styles.action}

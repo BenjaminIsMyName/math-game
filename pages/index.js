@@ -9,14 +9,14 @@ import Fabs from "../components/Fabs";
 
 export default function Home() {
   // TODO:
-  // 1. add transition to TimeButton rmoval
-  // 2. fix Firefox bug
-  // 3. fix audio re-fetching
+  // 1. fix Firefox bug
+  // 2. fix audio re-fetching
+  // 3. remove Quiz.js, it has no independent state
 
   const [score, setScore] = useState(0);
   const answer = useRef(0); // the correct answer (int)
-  const [audios, isSound, setSound, handleMute] = useSound();
-  const [time, setTime] = useState(5); // TODO: change this to useRef
+  const [audios, handleMute] = useSound(); // all the audio logic
+  const [time, setTime] = useState(5); // time limit (int)
   const [status, setStatus] = useState(0); // 0: game didn't start yet, 1: playing, 2: game is over
 
   return (

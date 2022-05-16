@@ -39,5 +39,5 @@ export default function useSound() {
     setSound();
   }, []);
 
-  return [audios, isSound, setSound, handleMute];
+  return [audios, handleMute];
 }

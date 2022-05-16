@@ -1,4 +1,4 @@
-import { useRef, useLayoutEffect, useState, useEffect } from "react";
+import { useRef, useState, useEffect } from "react";
 import styles from "../styles/Question.module.css";
 import { AnimatePresence, motion } from "framer-motion";
 export default function Question({ setAnswer, score }) {

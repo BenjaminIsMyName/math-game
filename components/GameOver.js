@@ -6,8 +6,6 @@ export default function GameOver({ playAgain }) {
     <div className={styles.container}>
       <Button
         onClick={playAgain}
-        // color='success'
-        // variant='outlined'
         color='secondary'
         variant='contained'
         startIcon={<ReplayIcon />}

@@ -19,9 +19,6 @@ export default function MuteButton({ callback, changePosition }) {
         }}
         color='secondary'
         aria-label='mute'
-        // sx={{
-        //   pointerEvents: "auto", // we disabled pointer events on the parent, so we need to re-enable them
-        // }}
       >
         {muted ? <VolumeOffIcon /> : <VolumeUpIcon />}
       </Fab>

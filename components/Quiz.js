@@ -1,6 +1,6 @@
 import Answers from "./Answers";
 import GameOver from "./GameOver";
-import { useState, useEffect, useRef } from "react";
+import { useEffect, useRef } from "react";
 export default function Quiz({
   score,
   setScore,
