@@ -21,7 +21,7 @@ export default function TimeButton({ time, setTime, hide }) {
       onOpen={() => setOpen(true)}
       open={open}
       ariaLabel='time limit'
-      className={styles.btn}
+      className={`${styles.btn} ${hide ? styles.hide : ""}`}
       icon={<SpeedDialIcon icon={<TimerIcon />} openIcon={<CloseIcon />} />}
       FabProps={{
         color: "secondary",
