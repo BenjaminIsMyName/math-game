@@ -1,17 +1,22 @@
-.hide {
-  width: 0;
-  margin-left: 0;
-}
-
-.hide * {
-  width: 0;
-}
-
-.show {
+.btn {
   width: 56px;
   margin-left: 13px;
 }
 
-.btn {
-  transition: all 0.5s ease-in-out;
+.action {
+  background-color: rgb(var(--secondary));
+  color: rgb(var(--text));
+}
+
+.selected {
+  background-color: rgb(var(--red));
+}
+
+.action:hover {
+  transition: background-color 0.4s ease-in-out;
+  background-color: rgba(var(--red), 0.5);
+}
+
+.selected:hover {
+  background-color: rgb(var(--red));
 }

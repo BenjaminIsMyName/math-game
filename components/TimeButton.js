@@ -3,89 +3,53 @@ import SpeedDialAction from "@mui/material/SpeedDialAction";
 import SpeedDialIcon from "@mui/material/SpeedDialIcon";
 import CloseIcon from "@mui/icons-material/Close";
 import TimerIcon from "@mui/icons-material/Timer";
-import Button from "@mui/material/Button";
 import styles from "../styles/TimeButton.module.css";
 import { useState } from "react";
+import { Typography } from "@mui/material";
 export default function TimeButton({ time, setTime, hide }) {
   const [open, setOpen] = useState(false);
-
   function handleClick(newTime) {
     setOpen(false);
     setTime(newTime);
   }
+
+  let actions = [3, 5, 9];
 
   return (
     <SpeedDial
       onClose={() => setOpen(false)}
       onOpen={() => setOpen(true)}
       open={open}
-      ariaLabel='change the time limit'
-      //   sx={{ position: "absolute", bottom: 16, right: 16 }}
-      className={`${hide ? styles.hide : styles.show} ${styles.btn}`}
+      ariaLabel='time limit'
+      className={styles.btn}
       icon={<SpeedDialIcon icon={<TimerIcon />} openIcon={<CloseIcon />} />}
       FabProps={{
-        sx: {
-          bgcolor: "secondary.main",
-          "&:hover": {
-            bgcolor: "secondary.main",
-          },
-        },
+        color: "secondary",
       }}
     >
-      <SpeedDialAction
-        component='div'
-        icon={
-          <Button
-            element='div'
-            sx={{
-              textTransform: "none",
-              fontWeight: "bolder",
-              fontSize: "1.1rem",
-              color: time === 3 ? "success.main" : "text.primary",
-            }}
-          >
-            3s
-          </Button>
-        }
-        tooltipTitle={"3 seconds"}
-        onClick={() => handleClick(3)}
-      />
-      <SpeedDialAction
-        component='div'
-        icon={
-          <Button
-            element='div'
-            sx={{
-              textTransform: "none",
-              fontWeight: "bolder",
-              fontSize: "1.1rem",
-              color: time === 5 ? "success.main" : "text.primary",
-            }}
-          >
-            5s
-          </Button>
-        }
-        tooltipTitle={"5 seconds"}
-        onClick={() => handleClick(5)}
-      />
-      <SpeedDialAction
-        component='div'
-        icon={
-          <Button
-            element='div'
-            sx={{
-              textTransform: "none",
-              fontWeight: "bolder",
-              fontSize: "1.1rem",
-              color: time === 9 ? "success.main" : "text.primary",
-            }}
-          >
-            9s
-          </Button>
-        }
-        tooltipTitle={"9 seconds"}
-        onClick={() => handleClick(9)}
-      />
+      {actions.map(n => {
+        return (
+          <SpeedDialAction
+            key={n}
+            component='div'
+            icon={
+              <Typography
+                sx={{
+                  textTransform: "none",
+                  fontWeight: "bolder",
+                  fontSize: "1.1rem",
+                  color: "text.main",
+                }}
+              >
+                {n}s
+              </Typography>
+            }
+            tooltipTitle={`${n} seconds`}
+            onClick={() => handleClick(n)}
+            className={time === n ? styles.selected : styles.action}
+          />
+        );
+      })}
     </SpeedDial>
   );
 }

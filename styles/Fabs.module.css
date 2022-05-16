@@ -18,5 +18,6 @@
 
 .container > * {
   display: inline-flex;
-  pointer-events: auto; /* make the children clickable */
+  /* pointer-events: auto; make the children clickable */
+  vertical-align: text-bottom; /* align the buttons to the bottom, because they are inline elements now and need it */
 }

@@ -8,9 +8,14 @@ import MyHead from "../components/MyHead";
 import Fabs from "../components/Fabs";
 
 export default function Home() {
+  // TODO:
+  // 1. add transition to TimeButton rmoval
+  // 2. fix Firefox bug
+  // 3. fix audio re-fetching
+
   const [score, setScore] = useState(0);
   const answer = useRef(0); // the correct answer (int)
-  const [audios, isSound, setSound] = useSound();
+  const [audios, isSound, setSound, handleMute] = useSound();
   const [time, setTime] = useState(5); // TODO: change this to useRef
   const [status, setStatus] = useState(0); // 0: game didn't start yet, 1: playing, 2: game is over
 
@@ -29,19 +34,7 @@ export default function Home() {
         setStatus={setStatus}
       />
       <Fabs
-        muteCallback={() => {
-          isSound.current = !isSound.current;
-          if (!isSound.current) {
-            // if the sound is muted, pause all sounds before deleting them (otherwise, the sound will continue to play)
-            audios.current.click && audios.current.click.pause();
-            audios.current.bad && audios.current.bad.pause();
-            audios.current.bitGood && audios.current.bitGood.pause();
-          }
-          setSound();
-          isSound.current &&
-            audios.current.click &&
-            audios.current.click.play();
-        }}
+        muteCallback={handleMute}
         time={time}
         setTime={setTime}
         status={status}
