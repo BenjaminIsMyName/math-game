@@ -9,7 +9,7 @@ export default function AnswerButton({ n, callback, resObj, time }) {
       } ${resObj.wrong === n ? styles.wrong : ""}`}
     >
       <span>{n}</span>
-      <div style={{ animationDuration: `${time}s` }}></div>
+      <div style={{ animationDuration: `${time.current}s` }}></div>
     </button>
   );
 }

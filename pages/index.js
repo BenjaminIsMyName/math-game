@@ -16,7 +16,7 @@ export default function Home() {
   const [score, setScore] = useState(0);
   const answer = useRef(0); // the correct answer (int)
   const [audios, handleMute] = useSound(); // all the audio logic
-  const [time, setTime] = useState(5); // time limit (int)
+  const timeLimit = useRef(5); // time limit (int)
   const [status, setStatus] = useState(0); // 0: game didn't start yet, 1: playing, 2: game is over
 
   return (
@@ -29,14 +29,14 @@ export default function Home() {
         setScore={setScore}
         answer={answer}
         audios={audios}
-        time={time}
+        time={timeLimit}
         status={status}
         setStatus={setStatus}
       />
       <Fabs
         muteCallback={handleMute}
-        time={time}
-        setTime={setTime}
+        time={timeLimit}
+        setTime={e => (timeLimit.current = e)}
         status={status}
       />
     </>

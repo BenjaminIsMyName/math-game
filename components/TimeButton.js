@@ -14,7 +14,6 @@ export default function TimeButton({ time, setTime, hide }) {
   }
 
   let actions = [3, 5, 9];
-
   return (
     <SpeedDial
       onClose={() => setOpen(false)}
@@ -34,7 +33,7 @@ export default function TimeButton({ time, setTime, hide }) {
             icon={<span className={styles.text}>{n}s</span>}
             tooltipTitle={`${n} seconds`}
             onClick={() => handleClick(n)}
-            className={time === n ? styles.selected : styles.action}
+            className={time.current === n ? styles.selected : styles.action}
           />
         );
       })}

@@ -43,7 +43,7 @@ export default function Quiz({
       timeRef.current = setTimeout(() => {
         audios.current.bad && audios.current.bad.play();
         setStatus(2);
-      }, time * 1000 + 200);
+      }, time.current * 1000 + 200);
     }
   }, [score, status]); // this will run only when score or playing changes (remove timer, and set new one if still playing)
 
