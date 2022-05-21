@@ -11,11 +11,10 @@ import useQuiz from "../hooks/useQuiz";
 
 export default function Home() {
   // TODO:
-  // 1. fix Firefox bug
-  // 2. fix audio re-fetching
+  // 1. fix Firefox bug - SVGs are hidden behind the address bar
 
   const [score, setScore] = useState(0);
-  const [audios, handleMute] = useSound(); // all the audio logic
+  const [audios, toggleSound, isSound] = useSound(); // all the audio logic
   const timeLimit = useRef(5); // time limit (int)
   const [status, setStatus] = useState(0); // 0: game didn't start yet, 1: playing, 2: game is over
   const { handleClick, wrongAnswerRef, answer } = useQuiz(
@@ -24,7 +23,8 @@ export default function Home() {
     audios,
     setStatus,
     setScore,
-    timeLimit
+    timeLimit,
+    isSound
   ); // the logic for the quiz
 
   return (
@@ -46,8 +46,8 @@ export default function Home() {
           playAgain={() => {
             setStatus(0);
             setScore(0);
-            audios.current.bad && audios.current.bad.pause();
-            if (audios.current.bad) {
+            isSound.current && audios.current.bad && audios.current.bad.pause();
+            if (isSound.current && audios.current.bad) {
               audios.current.bad.currentTime = 0; // reset the audio
             }
             wrongAnswerRef.current = null;
@@ -55,7 +55,7 @@ export default function Home() {
         />
       )}
       <Fabs
-        muteCallback={handleMute}
+        muteCallback={toggleSound}
         time={timeLimit}
         setTime={e => (timeLimit.current = e)}
         status={status}

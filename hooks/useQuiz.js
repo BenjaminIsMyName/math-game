@@ -6,7 +6,8 @@ export default function useQuiz(
   audios,
   setStatus,
   setScore,
-  time
+  time,
+  isSound
 ) {
   const timeRef = useRef(null); // to store the setTimeout reference, so we can clear it when the user clicks on an answer
   const wrongAnswerRef = useRef(null); // to store the wrong answer (int)
@@ -17,11 +18,13 @@ export default function useQuiz(
     setStatus(1); // set the status to "playing"
     if (answer.current === num) {
       // setScore(prev => (prev < 10 ? prev + 1 : prev + 2)); // get 2 points if the question is hard...
-      setScore(prev => prev + 1); // if the answer is correct, increase the score only by 1
-      audios.current.bitGood && audios.current.bitGood.play();
+      setScore(prev => prev + 1); // if the answer is correct, increase the score only by 1, always
+      isSound.current &&
+        audios.current.bitGood &&
+        audios.current.bitGood.play();
     } else {
       wrongAnswerRef.current = num;
-      audios.current.bad && audios.current.bad.play();
+      isSound.current && audios.current.bad && audios.current.bad.play();
       setStatus(2);
     }
   }
@@ -36,7 +39,7 @@ export default function useQuiz(
     if (status === 1) {
       // if the user started the game (score: 1+) and the game is still playing, we need to set a new time interval
       timeRef.current = setTimeout(() => {
-        audios.current.bad && audios.current.bad.play();
+        isSound.current && audios.current.bad && audios.current.bad.play();
         setStatus(2);
       }, time.current * 1000 + 200);
     }
