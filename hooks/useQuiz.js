@@ -19,12 +19,10 @@ export default function useQuiz(
     if (answer.current === num) {
       // setScore(prev => (prev < 10 ? prev + 1 : prev + 2)); // get 2 points if the question is hard...
       setScore(prev => prev + 1); // if the answer is correct, increase the score only by 1, always
-      isSound.current &&
-        audios.current.bitGood &&
-        audios.current.bitGood.play();
+      audios.current.bitGood.play();
     } else {
       wrongAnswerRef.current = num;
-      isSound.current && audios.current.bad && audios.current.bad.play();
+      audios.current.bad.play();
       setStatus(2);
     }
   }
@@ -39,7 +37,7 @@ export default function useQuiz(
     if (status === 1) {
       // if the user started the game (score: 1+) and the game is still playing, we need to set a new time interval
       timeRef.current = setTimeout(() => {
-        isSound.current && audios.current.bad && audios.current.bad.play();
+        audios.current.bad.play();
         setStatus(2);
       }, time.current * 1000 + 200);
     }

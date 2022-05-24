@@ -9,6 +9,28 @@ export default function useSound() {
     click: null,
   });
 
+  let obj = {};
+
+  for (let key in audios.current) {
+    obj[key] = {
+      play: () => {
+        isSound.current && audios.current[key] && audios.current[key].play();
+      },
+      pause: () => {
+        audios.current[key] &&
+          audios.current[key] &&
+          audios.current[key].pause();
+      },
+      currentTime: n => {
+        audios.current[key] &&
+          audios.current[key] &&
+          (audios.current[key].currentTime = n);
+      },
+    };
+  }
+
+  const audiosWrapper = useRef(obj);
+
   function toggleSound() {
     isSound.current = !isSound.current;
     if (!isSound.current) {
@@ -36,5 +58,5 @@ export default function useSound() {
     audios.current.click = new Audio("/click-sound.wav");
   }, []);
 
-  return [audios, toggleSound, isSound];
+  return [audiosWrapper, toggleSound, isSound];
 }

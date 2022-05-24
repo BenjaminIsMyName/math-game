@@ -46,10 +46,8 @@ export default function Home() {
           playAgain={() => {
             setStatus(0);
             setScore(0);
-            isSound.current && audios.current.bad && audios.current.bad.pause();
-            if (isSound.current && audios.current.bad) {
-              audios.current.bad.currentTime = 0; // reset the audio
-            }
+            audios.current.bad.pause();
+            audios.current.bad.currentTime(0); // reset the audio
             wrongAnswerRef.current = null;
           }}
         />
