@@ -8,6 +8,7 @@ import Fabs from "../components/Fabs";
 import Answers from "../components/Answers";
 import GameOver from "../components/GameOver";
 import useQuiz from "../hooks/useQuiz";
+import PlayAgainSnackbar from "../components/PlayAgainSnackbar";
 
 export default function Home() {
   // TODO:
@@ -21,6 +22,7 @@ export default function Home() {
   const [audios, toggleSound, isSound] = useSound(); // all the audio logic
   const timeLimit = useRef(5); // time limit (int)
   const [status, setStatus] = useState(0); // 0: game didn't start yet, 1: playing, 2: game is over
+  const [isSnackbarOpen, setIsSnackbarOpen] = useState(false);
   const { handleClick, wrongAnswerRef, answer } = useQuiz(
     score,
     status,
@@ -31,6 +33,22 @@ export default function Home() {
     isSound
   ); // the logic for the quiz
 
+  function handleCloseOfSnackbar(event, reason) {
+    if (reason === "clickaway") {
+      return;
+    }
+    setIsSnackbarOpen(false);
+  }
+
+  function playAgain() {
+    setStatus(0);
+    setScore(0);
+    audios.current.bad.pause();
+    audios.current.bad.currentTime(0); // reset the audio
+    wrongAnswerRef.current = null;
+    handleCloseOfSnackbar();
+  }
+
   return (
     <>
       <MyHead />
@@ -38,30 +56,25 @@ export default function Home() {
       <Question setAnswer={e => (answer.current = e)} score={score} />
       <Answers
         time={timeLimit}
-        callback={status !== 2 ? handleClick : () => null} // if playing is false, we don't want to do anything when the user clicks on an answer
+        callback={status === 2 ? () => setIsSnackbarOpen(true) : handleClick} // if playing is false, we don't want to do anything when the user clicks on an answer
         score={wrongAnswerRef.current ? -1 : score} // only if the user chose the wrong answer, re-mount the answers with score of -1 (which means: no animation, simple background). but if the user lost because of time, we don't want to re-mount the answers (stay red). score (the key) will not update.
         resObj={{
           correct: wrongAnswerRef.current ? answer.current : null,
           wrong: wrongAnswerRef.current ? wrongAnswerRef.current : null,
         }}
       />
-      {status === 2 && (
-        <GameOver
-          playAgain={() => {
-            setStatus(0);
-            setScore(0);
-            audios.current.bad.pause();
-            audios.current.bad.currentTime(0); // reset the audio
-            wrongAnswerRef.current = null;
-          }}
-        />
-      )}
+      {status === 2 && <GameOver playAgain={playAgain} />}
       <Fabs
         muteCallback={toggleSound}
         time={timeLimit}
         setTime={e => (timeLimit.current = e)}
         status={status}
         isSound={isSound}
+      />
+      <PlayAgainSnackbar
+        isSnackbarOpen={isSnackbarOpen}
+        playAgain={playAgain}
+        handleCloseOfSnackbar={handleCloseOfSnackbar}
       />
     </>
   );

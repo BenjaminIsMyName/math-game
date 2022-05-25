@@ -11,21 +11,6 @@
   top: 0;
   overflow: hidden;
   pointer-events: none;
-  /* animation: show 0.3s ease-in forwards; */
-}
-
-@keyframes show {
-  0% {
-    opacity: 0;
-    right: calc(16px + 48px); /* 16px for margin, 48px for the first button  */
-  }
-
-  100% {
-    opacity: 1;
-    right: calc(
-      16px + 48px + 12px
-    ); /* add 12px margin here, the 4 other px will are added in the button itself  */
-  }
 }
 
 .settings {

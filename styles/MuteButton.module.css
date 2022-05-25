@@ -9,5 +9,5 @@
 }
 
 .rightPosition {
-  right: 4px; /* 4px for extra margin */
+  right: 4px; /* 4px for extra margin, the container has a margin of 12 from the settings Fab. so overall margin of 16 */
 }

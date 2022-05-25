@@ -7,6 +7,7 @@ import Fab from "@mui/material/Fab";
 import { useState } from "react";
 import styles from "../styles/Fabs.module.css";
 import { AnimatePresence, motion } from "framer-motion";
+import ArrowCircleRightOutlinedIcon from "@mui/icons-material/ArrowCircleRightOutlined";
 export default function Fabs({ muteCallback, time, setTime, status, isSound }) {
   const [isOpen, setIsOpen] = useState(false);
 
@@ -20,7 +21,7 @@ export default function Fabs({ muteCallback, time, setTime, status, isSound }) {
           onClick={() => setIsOpen(e => !e)}
           className={styles.settings}
         >
-          {isOpen ? <ArrowRightIcon /> : <SettingsIcon />}
+          {isOpen ? <ArrowCircleRightOutlinedIcon /> : <SettingsIcon />}
         </Fab>
       </Fade>
       <AnimatePresence exitBeforeEnter={true}>
