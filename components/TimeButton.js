@@ -24,6 +24,7 @@ export default function TimeButton({ time, setTime, hide }) {
       icon={<SpeedDialIcon icon={<TimerIcon />} openIcon={<CloseIcon />} />}
       FabProps={{
         color: "secondary",
+        size: "medium",
       }}
     >
       {actions.map(n => {

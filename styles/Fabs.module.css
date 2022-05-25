@@ -1,23 +1,35 @@
-.container {
-  position: fixed;
-  bottom: 16px;
-  right: 16px;
-  pointer-events: none; /* don't let the container "hide" things, everything behind it should still be clickable */
-
-  /* the following code is used to prevent a bug on firefox with the mute button that disappears behind the address bar.
-  info: 
+/* bug on firefox: 
   on mozilla website: https://bugzilla.mozilla.org/show_bug.cgi?id=1673454
   on github: https://github.com/mozilla-mobile/fenix/issues/16173
   on stackoverflow: https://stackoverflow.com/questions/64530403/button-in-fixed-position-div-disappears-when-updated-via-javascript-only-occurs
   */
-  /* width: 100%;
-  height: 100%;
-  overflow-y: auto;
-  -webkit-overflow-scrolling: touch; */
+
+.fabsContainer {
+  position: fixed;
+  bottom: 16px;
+  width: 100%;
+  top: 0;
+  overflow: hidden;
+  pointer-events: none;
+  /* animation: show 0.3s ease-in forwards; */
 }
 
-.container > * {
-  display: inline-flex;
-  /* pointer-events: auto; make the children clickable */
-  vertical-align: text-bottom; /* align the buttons to the bottom, because they are inline elements now and need it */
+@keyframes show {
+  0% {
+    opacity: 0;
+    right: calc(16px + 48px); /* 16px for margin, 48px for the first button  */
+  }
+
+  100% {
+    opacity: 1;
+    right: calc(
+      16px + 48px + 12px
+    ); /* add 12px margin here, the 4 other px will are added in the button itself  */
+  }
+}
+
+.settings {
+  position: fixed;
+  bottom: 16px;
+  right: 16px;
 }
