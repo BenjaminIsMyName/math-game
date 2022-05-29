@@ -18,3 +18,9 @@
   bottom: 16px;
   right: calc(16px + 48px + 16px);
 }
+
+@media screen and (min-width: 600px) {
+  .settings {
+    right: calc(16px + 56px + 16px);
+  }
+}

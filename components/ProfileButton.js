@@ -5,7 +5,7 @@ import PersonIcon from "@mui/icons-material/Person";
 import SpeedDial from "@mui/material/SpeedDial";
 import { useState } from "react";
 import styles from "../styles/ProfileButton.module.css";
-export default function ProfileButton() {
+export default function ProfileButton({ size }) {
   const [isProfileOpen, setIsProfileOpen] = useState(false);
 
   return (
@@ -18,15 +18,21 @@ export default function ProfileButton() {
       icon={<SpeedDialIcon icon={<PersonIcon />} openIcon={<CloseIcon />} />}
       FabProps={{
         color: "secondary",
-        size: "medium",
+        size: size,
       }}
     >
       <SpeedDialAction
-        key='theme'
-        icon={"Test"}
-        tooltipTitle={`Theme`}
+        key='coming soon'
+        icon={<PersonIcon />}
+        tooltipTitle={`Coming Soon`}
         tooltipOpen={true}
         onClick={null}
+        FabProps={{
+          sx: {
+            backgroundColor: "black",
+          },
+          size: size,
+        }}
       />
     </SpeedDial>
   );

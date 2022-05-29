@@ -5,7 +5,12 @@ import Fab from "@mui/material/Fab";
 import { useState } from "react";
 import styles from "../styles/MuteButton.module.css";
 
-export default function MuteButton({ callback, changePosition, isSound }) {
+export default function MuteButton({
+  callback,
+  changePosition,
+  isSound,
+  size,
+}) {
   const [muted, setMuted] = useState(!isSound.current);
 
   return (
@@ -14,7 +19,7 @@ export default function MuteButton({ callback, changePosition, isSound }) {
       className={`${styles.btn} ${changePosition ? styles.rightPosition : ""}`}
     >
       <Fab
-        size='medium'
+        size={size}
         onClick={() => {
           callback();
           setMuted(prev => !prev);

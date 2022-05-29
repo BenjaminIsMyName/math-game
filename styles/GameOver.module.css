@@ -5,5 +5,5 @@
   color: rgb(var(--text));
   justify-content: center;
   text-align: center;
-  padding: min(100px, 10vh) 0 30px 0;
+  padding: min(100px, 10vh) 0 max(30px, 20vh) 0;
 }
