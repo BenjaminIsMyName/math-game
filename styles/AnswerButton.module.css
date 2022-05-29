@@ -10,7 +10,7 @@
   background-color: rgb(var(--secondary));
   color: rgb(var(--text));
   text-align: center;
-  padding: 5px;
+  padding: max(5px, 2vh);
   position: relative;
   border: none;
   box-shadow: 2px 2px 5px rgba(var(--shadow-color), 0.5);

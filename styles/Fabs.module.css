@@ -16,5 +16,5 @@
 .settings {
   position: fixed;
   bottom: 16px;
-  right: 16px;
+  right: calc(16px + 48px + 16px);
 }

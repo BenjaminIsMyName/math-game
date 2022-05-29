@@ -17,6 +17,7 @@ export default function Home() {
   // 3. add "account/user" SpeedDial, to allow login/logout/signup/delete account/change theme (using mongoDB)
   // 4. add a small alert to show the user that the game is over, when trying to click on a question when the game is over
   // 5. add a live list of the top players (using websockets or something)
+  // 6. animate linear background color change when score changes
 
   const [score, setScore] = useState(0);
   const [audios, toggleSound, isSound] = useSound(); // all the audio logic

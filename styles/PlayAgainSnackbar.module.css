@@ -1,0 +1,25 @@
+.snackbar {
+  /* background: linear-gradient(
+    to right,
+    rgba(var(--green), 0.8),
+    rgba(var(--red), 0.4)
+  ); */
+  /* background: linear-gradient(
+    to right,
+    rgb(var(--text), 0.8),
+    rgb(var(--text), 1)
+  ); */
+  /* background: linear-gradient(red, blue); */
+  /* color: rgb(var(--text), 1); */
+  /* background-color: red !important; */
+}
+
+.btn {
+  font-weight: bolder;
+}
+
+@media screen and (max-width: 600px) {
+  .snackbar {
+    padding: 10px;
+  }
+}

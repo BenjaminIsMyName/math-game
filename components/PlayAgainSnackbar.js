@@ -2,7 +2,7 @@ import Button from "@mui/material/Button";
 import Snackbar from "@mui/material/Snackbar";
 import IconButton from "@mui/material/IconButton";
 import CloseIcon from "@mui/icons-material/Close";
-
+import styles from "../styles/PlayAgainSnackbar.module.css";
 export default function PlayAgainSnackbar({
   isSnackbarOpen,
   playAgain,
@@ -10,13 +10,26 @@ export default function PlayAgainSnackbar({
 }) {
   return (
     <Snackbar
+      // anchorOrigin={{
+      //   vertical: "top",
+      //   horizontal: "left",
+      // }}
+      // sx={{ bottom: { xs: 90, sm: 30 } }}
       open={isSnackbarOpen}
       autoHideDuration={6000}
       onClose={handleCloseOfSnackbar}
       message='Game is over!'
+      ContentProps={{
+        className: styles.snackbar,
+      }}
       action={
         <>
-          <Button color='info' size='small' onClick={playAgain}>
+          <Button
+            color='success'
+            size='small'
+            onClick={playAgain}
+            className={styles.btn}
+          >
             PLAY AGAIN
           </Button>
           <IconButton

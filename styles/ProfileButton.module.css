@@ -1,0 +1,5 @@
+.profile {
+  position: fixed;
+  bottom: 16px;
+  right: 12px; /* 4px padding exist on each side in SpeedDial, so overall 16px */
+}
