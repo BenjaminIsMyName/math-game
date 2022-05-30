@@ -1,7 +1,7 @@
 import { useState, useRef } from "react";
 import Score from "../components/Score";
 import Question from "../components/Question";
-// import styles from "../styles/Home.module.css";
+import styles from "../styles/Home.module.css";
 import useSound from "../hooks/useSound";
 import MyHead from "../components/MyHead";
 import Fabs from "../components/Fabs";
@@ -9,7 +9,12 @@ import Answers from "../components/Answers";
 import GameOver from "../components/GameOver";
 import useQuiz from "../hooks/useQuiz";
 import PlayAgainSnackbar from "../components/PlayAgainSnackbar";
-
+import {
+  AnimatePresence,
+  motion,
+  useTransform,
+  useMotionValue,
+} from "framer-motion";
 export default function Home() {
   // TODO:
   // 1. fix Firefox bug - SVGs are hidden behind the address bar
@@ -50,9 +55,28 @@ export default function Home() {
     handleCloseOfSnackbar();
   }
 
+  const colors = {
+    // " --primary: 20, 20, 20;
+    // --secondary: 50, 50, 50;
+    // --text: 255, 255, 255;
+    // --red: 200, 50, 50;
+    // --green: 20, 150, 20;
+    // --shadow-color: 0, 0, 0;"
+  };
+
   return (
     <>
       <MyHead />
+
+      <motion.div
+        className={styles.backround}
+        animate={{
+          background: `linear-gradient(${
+            score * 30
+          }deg, rgba(var(--red), 0), rgba(var(--green), 0.13))`,
+        }}
+      ></motion.div>
+
       <Score score={score} />
       <Question setAnswer={e => (answer.current = e)} score={score} />
       <Answers

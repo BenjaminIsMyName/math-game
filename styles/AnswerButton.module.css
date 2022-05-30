@@ -7,7 +7,7 @@
 }
 
 .button {
-  background-color: rgb(var(--secondary));
+  background-color: rgba(var(--text), 0.1);
   color: rgb(var(--text));
   text-align: center;
   padding: max(5px, 2vh);
@@ -15,6 +15,8 @@
   border: none;
   box-shadow: 2px 2px 5px rgba(var(--shadow-color), 0.5);
   cursor: pointer;
+  /* -webkit-backdrop-filter: blur(129px);
+  backdrop-filter: blur(95px); */
 }
 
 .button span {

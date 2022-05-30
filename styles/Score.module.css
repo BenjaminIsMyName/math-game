@@ -2,7 +2,7 @@
   font-size: 1.5rem;
   font-weight: bold;
   color: rgb(var(--text));
-  background-color: #333;
+  background-color: rgba(var(--text), 0.1);
   padding: 15px;
   margin-bottom: 20px;
   text-align: center;
