@@ -8,7 +8,7 @@
   position: fixed;
   bottom: 16px;
   width: 100%;
-  top: 0;
+  height: 240px; /* height, instead of "top: 0", because the latter causes a bug on mobile when hiding the address bar */
   overflow: hidden;
   pointer-events: none;
 }

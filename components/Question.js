@@ -226,6 +226,7 @@ export default function Question({ setAnswer, score }) {
     <div className={styles.container}>
       <AnimatePresence exitBeforeEnter={true}>
         <motion.h1
+          data-testid='question'
           key={score}
           initial={{ x: -50, opacity: 0 }}
           animate={{ x: 0, opacity: 1 }}

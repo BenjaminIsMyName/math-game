@@ -73,7 +73,7 @@ export default function Home() {
         animate={{
           background: `linear-gradient(${
             score * 30
-          }deg, rgba(var(--red), 0), rgba(var(--green), 0.13))`,
+          }deg, rgba(var(--red), 0.1) 0%, rgba(var(--green), 0.2)) 100%`,
         }}
       ></motion.div>
 
